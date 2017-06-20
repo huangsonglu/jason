@@ -1,7 +1,7 @@
 # Notice
 this is a showcase of myEnv
 
-#How to run?
+# How to run?
 1.install nodejs environment
 
 2.open terminal and cd root path of project you download ,then npm install.
