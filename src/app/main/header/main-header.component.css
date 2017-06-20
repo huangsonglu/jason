@@ -58,7 +58,7 @@ button .caret {
 .location-drop-bg a:hover, .location-selected {
   color: white;
   text-decoration: none;
-  background-color: #7593d6;
+  background-color: #2e80c3;
 }
 
 @media (max-width: 767px){
@@ -78,7 +78,7 @@ button .caret {
     .location-drop-bg a:hover, .location-selected {
       color: white;
       text-decoration: none;
-      background-color: #7593d6 !important;
+      background-color: #2e80c3 !important;
     }
 }
 @media (max-width: 991px){

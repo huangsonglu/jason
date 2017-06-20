@@ -33,4 +33,102 @@ export class AppState {
     // simple object clone
     return JSON.parse(JSON.stringify(object));
   }
+
+  public getLocations() {
+    return [
+      {
+        index: 0,
+        name: 'Bei Jing',
+        value: 'Bei Jing',
+        selected: false,
+        weather: {
+          logo: 'icon-rain',
+          text: 'Rainy',
+          temperature: '26.2°C',
+          wet: '50%',
+        },
+        quality: {
+          PSI: {
+            name: 'PSI',
+            value: 50,
+            description: 'Warning',
+            color: 'gray'
+          },
+          RAIN: {
+            name: 'RAIN',
+            value: 10,
+            description: 'mm'
+          },
+          DENGUE: {
+            name: 'DENGUE',
+            value: 2,
+            color: 'gray'
+          }
+        }
+      }, {
+        index: 1,
+        name: 'Singapore',
+        value: 'Singapore',
+        selected: false,
+        weather: {
+          logo: 'icon-sun',
+          text: 'Sunny',
+          temperature: '27.2°C',
+          wet: '60%'
+        },
+        quality: {
+          PSI: {
+            name: 'PSI',
+            value: 10,
+            description: 'Perfect',
+            color: 'green'
+          },
+          RAIN: {
+            name: 'RAIN',
+            value: 55,
+            description: 'mm'
+          },
+          DENGUE: {
+            name: 'DENGUE',
+            value: 1,
+            color: 'green'
+          }
+        }
+      }
+      , {
+        index: 2,
+        name: 'Current',
+        value: 'Current Location',
+        selected: false,
+        weather: {
+          logo: 'icon-cloudy2',
+          text: 'Cloudy',
+          temperature: '29.2°C',
+          wet: '73%'
+        },
+        quality: {
+          PSI: {
+            name: 'PSI',
+            value: 23,
+            description: 'Good',
+            color: 'green'
+          },
+          RAIN: {
+            name: 'RAIN',
+            value: 0,
+            description: 'mm'
+          },
+          DENGUE: {
+            name: 'DENGUE',
+            value: 3,
+            color: 'lightblue'
+          }
+        }
+      }
+    ]
+  }
+
+  public getCurrentLocation() {
+    return this.getLocations()[2];
+  }
 }

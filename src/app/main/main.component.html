@@ -2,7 +2,7 @@
 <div class="wrapper" (window:resize)="onResize($event)">
 
   <!-- Main Header -->
-  <main-header (onMenuClick)="menuClick()"></main-header>
+  <main-header (onMenuClick)="menuClick()" (onLocationChanged)="locationChanged($event)"></main-header>
   <!-- Left side column. contains the logo and sidebar -->
   <main-sidebar></main-sidebar>
 

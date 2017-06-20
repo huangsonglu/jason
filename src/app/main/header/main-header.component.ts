@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { AdminLteService } from './../admin-lte/admin-lte.services';
+import { AppState } from './../../app.service'
 
 declare var $: any;
 @Component({
@@ -10,30 +11,16 @@ declare var $: any;
 export class MainHeaderComponent implements OnInit {
   private adminLte: any;
   private index: any;
-  public locations = [
-    {
-      index: 0,
-      name: 'Bei Jing',
-      value: 'Bei Jing',
-      selected: false
-    }, {
-      index: 1,
-      name: 'Singapore',
-      value: 'Singapore',
-      selected: false
-    }
-    , {
-      index: 2,
-      name: 'Current',
-      value: 'Current Location',
-      selected: false
-    }
-  ];
+  public locations = [];
   @Output() public onMenuClick: EventEmitter<any> = new EventEmitter<any>();
-  constructor(public adminLteService: AdminLteService) {
+  @Output() public onLocationChanged: EventEmitter<any> = new EventEmitter<any>();
+  constructor(
+    public adminLteService: AdminLteService
+    , public app: AppState) {
     this.adminLte = this.adminLteService.getAdminLte();
     // this is aconstructor
     this.index = 1;
+    this.locations = this.app.getLocations();
   }
 
   public ngOnInit() {
@@ -60,5 +47,6 @@ export class MainHeaderComponent implements OnInit {
     }
     this.locations[location.index].selected = true;
     $('#currentLoc').text(this.locations[location.index].value);
+    this.onLocationChanged.emit(this.locations[location.index]);
   }
 }

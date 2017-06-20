@@ -21,6 +21,7 @@ var tideBottom = 0;
 })
 export class WeatherCenterComponent implements OnInit {
   public homeControl: MainComponent;
+  public currentLocation;
   constructor(
     private service: WeatherService,
     private route: ActivatedRoute,
@@ -28,10 +29,15 @@ export class WeatherCenterComponent implements OnInit {
     public appState: AppState,
     public injector: Injector
   ) {
+    this.currentLocation = appState.getCurrentLocation();
     try {
       this.homeControl = this.injector.get(forwardRef(() => MainComponent));
       this.homeControl.registerOnMenuclick(() => {
 
+      })
+      this.homeControl.registerOnLocationChanged((location) => {
+        console.log(location);
+        this.currentLocation = location;
       })
     } catch (error) {
 

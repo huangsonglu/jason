@@ -1,34 +1,34 @@
 <div class="row root">
   <div class="col-lg-7 col-md-12 weather-status">
-    <div class="weather-img icon iconfont icon-cloudy2 col-lg-5 col-md-5 col-sm-5 col-xs-5"></div>
+    <div class="weather-img icon iconfont icon-cloudy2 col-lg-5 col-md-5 col-sm-5 col-xs-5 {{currentLocation.weather.logo}}"></div>
     <div class="weather-texts col-lg-7 col-md-7 col-sm-7 col-sm-7">
-      <div class="status">Cloudy</div>
+      <div class="status">{{currentLocation.weather.text}}</div>
       <div>
         <a href="javascript:void(0);">
           <i class="icon iconfont icon-21pingjunqiwen flag"></i>
-          <span >29.2°C</span>
+          <span >{{currentLocation.weather.temperature}}</span>
         </a>
         <a href="javascript:void(0);" class="space">
           <i class="icon iconfont icon-water flag"></i>
-          <span >73%</span>
+          <span >{{currentLocation.weather.wet}}</span>
         </a>
       </div>
     </div>
   </div>
   <div class="col-lg-5 ls-fn">
     <div class="col-lg-6 fn-container border-right-up ">
-      <div class="title">PSI</div>
-      <span class="value block">23</span>
-      <div class="sub-value">Good</div>
+      <div class="title">{{currentLocation.quality.PSI.name}}</div>
+      <span class="value block">{{currentLocation.quality.PSI.value}}</span>
+      <div class="sub-value">{{currentLocation.quality.PSI.description}}</div>
     </div>
     <div class="col-lg-6 fn-container border-bottom-right">
-      <div class="title">RAIN</div>
-      <span class="value block">0</span>
-      <div class="sub-value">mm</div>
+      <div class="title">{{currentLocation.quality.RAIN.name}}</div>
+      <span class="value block">{{currentLocation.quality.RAIN.value}}</span>
+      <div class="sub-value">{{currentLocation.quality.RAIN.description}}</div>
     </div>
     <div class="col-lg-6 fn-container border-top-left">
-      <div class="title">DENGUE</div>
-      <span class="circle"></span>
+      <div class="title">{{currentLocation.quality.DENGUE.name}}</div>
+      <span class="circle" [style.background]="currentLocation.quality.DENGUE.color"></span>
     </div>
     <div class="col-lg-6 fn-container border-left-down">
       <i class="icon iconfont icon-add flag"></i>
@@ -39,18 +39,18 @@
 
 <div class="row ss-fn">
     <div class="col-md-3 col-sm-3 col-xs-3 fn-container border-right-up">
-      <div class="title">PSI</div>
-      <span class="value block radius">23</span>
-      <div class="sub-value">Good</div>
+      <div class="title">{{currentLocation.quality.PSI.name}}</div>
+      <span class="value block radius" [style.background]="currentLocation.quality.PSI.color">{{currentLocation.quality.PSI.value}}</span>
+      <div class="sub-value">{{currentLocation.quality.PSI.description}}</div>
     </div>
     <div class="col-md-3 col-sm-3 col-xs-3 fn-container border-right-up">
-      <div class="title">RAIN</div>
-      <span class="value block">0</span>
-      <div class="sub-value">mm</div>
+      <div class="title">{{currentLocation.quality.RAIN.name}}</div>
+      <span class="value block">{{currentLocation.quality.RAIN.value}}</span>
+      <div class="sub-value">{{currentLocation.quality.RAIN.description}}</div>
     </div>
     <div class="col-md-3 col-sm-3 col-xs-3 fn-container border-right-up">
-      <div class="title">DENGUE</div>
-      <span class="circle"></span>
+      <div class="title">{{currentLocation.quality.DENGUE.name}}</div>
+      <span class="circle" [style.background]="currentLocation.quality.DENGUE.color"></span>
     </div>
     <div class="col-md-3 col-sm-3 col-xs-3 fn-container">
       <i class="icon iconfont icon-add flag"></i>

@@ -12,6 +12,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   public body: any;
   public adminLte: any;
   public menuRegister;
+  public locationRegister;
   constructor(public adminLteService: AdminLteService) {
     // this.bodyClasses = 'skin-blue sidebar-mini';
     // this.body = document.getElementsByTagName('body')[0];
@@ -64,13 +65,23 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     this.adminLteService.setup();
   }
 
-  public registerOnMenuclick(onChanged : () => void) {
+  public registerOnMenuclick(onChanged: () => void) {
     this.menuRegister = onChanged;
   }
 
   public menuClick() {
     if (this.menuRegister) {
       this.menuRegister();
+    }
+  }
+
+  public registerOnLocationChanged(onChanged: (location: any) => void) {
+    this.locationRegister = onChanged;
+  }
+
+  public locationChanged(event) {
+    if (this.locationRegister) {
+      this.locationRegister(event);
     }
   }
 

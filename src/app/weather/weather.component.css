@@ -34,6 +34,10 @@
   margin-left: 15px;
 }
 
+.weather-texts a{
+  text-decoration: none !important;
+}
+
 .ls-fn {
   display: block;
   height: 100%;
@@ -93,7 +97,7 @@ span.circle{
 
 span.radius {
   background: green;
-  border: 1px solid green;
+  border: 0px solid green;
   border-radius: 10px;
 }
 
