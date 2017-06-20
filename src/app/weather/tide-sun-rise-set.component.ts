@@ -1,7 +1,7 @@
 // TODO SOMEDAY: Feature Componetized like CrisisCenter
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Hero, WeatherService } from './weather.service';
 let echarts = require('echarts');
@@ -10,6 +10,7 @@ let linedata = [[50, 0], [55, 23], [60.75, 44], [68.24, 63.46], [80.97, 83.78], 
   , [177.10, 75.00], [197.56, 55.00], [200, 52]];
 let fielddata = [[0, 50], [20, 60], [45, 90], [50, 93], [55, 94], [65, 90], [75, 80], [80, 75], [100, 60], [125, 50], [150, 53], [175, 40], [200, 30]];
 let tideBottom = 0;
+const screenDiv = 767;
 @Component({
   templateUrl: 'tide-sun-rise-set.component.html',
   selector: 'tide-sunrise-sunset',
@@ -17,9 +18,10 @@ let tideBottom = 0;
     './weather.component.css'
   ]
 })
-export class TideSunriseAndSunsetComponent implements OnInit {
+export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
   public myChart;
   public symbolSize = 10;
+  public minterval;
   constructor(
     private service: WeatherService,
     private route: ActivatedRoute,
@@ -33,15 +35,55 @@ export class TideSunriseAndSunsetComponent implements OnInit {
         this.cal();
       }, 0);
     })
-    $('.sidebar-toggle').bind('click', function() {
-      if (window.innerWidth <= 767) {
+    $('.sidebar-toggle').bind('click', () => {
+      if (window.innerWidth <= screenDiv) {
         setTimeout(() => {
           this.cal();
-        }, 1000);
+        }, 300);
       }
     })
 
-    let option = {
+    let option = this.getOption();
+
+    setTimeout(() => {
+      this.myChart.setOption({
+        graphic: echarts.util.map(linedata, (item, dataIndex) => {
+          return {
+            type: 'circle',
+            position: this.myChart.convertToPixel('grid', item),
+            shape: {
+              cx: 0,
+              cy: 0,
+              r: this.symbolSize / 2
+            },
+            invisible: true,
+            z: 100
+          };
+        })
+      });
+    }, 0);
+
+    window.addEventListener('resize', () => {
+      this.myChart.setOption({
+        graphic: echarts.util.map(linedata, (item, dataIndex) => {
+          return {
+            type: 'circle',
+            position: this.myChart.convertToPixel('grid', item)
+          };
+        })
+      });
+      this.myChart.resize();
+      setTimeout(() => {
+        this.cal();
+      }, 0);
+    });
+
+    this.myChart.setOption(option);
+    this.cal();
+  }
+
+  public getOption() {
+    return {
       title: {
         text: '27th December',
         textStyle: {
@@ -112,51 +154,15 @@ export class TideSunriseAndSunsetComponent implements OnInit {
           }
         }
       ]
-    };
-
-
-    setTimeout(() => {
-      this.myChart.setOption({
-        graphic: echarts.util.map(linedata, (item, dataIndex) => {
-          return {
-            type: 'circle',
-            position: this.myChart.convertToPixel('grid', item),
-            shape: {
-              cx: 0,
-              cy: 0,
-              r: this.symbolSize / 2
-            },
-            invisible: true,
-            z: 100
-          };
-        })
-      });
-    }, 0);
-
-    window.addEventListener('resize', () => {
-      this.myChart.setOption({
-        graphic: echarts.util.map(linedata, (item, dataIndex) => {
-          return {
-            position: this.myChart.convertToPixel('grid', item)
-          };
-        })
-      });
-      this.myChart.resize();
-      setTimeout(function() {
-        this.cal();
-      }, 0);
-    });
-
-    this.myChart.setOption(option);
-    this.cal();
+    }
   }
 
   public calculatePos(str, pos) {
       let demowindow = $(`#${str}`);
       let position = this.myChart.convertToPixel('grid', pos);
       demowindow.css('display', 'block');
-      demowindow.css('height', window.innerWidth <= 767 ? 60 : 80);
-      demowindow.css('width', window.innerWidth <= 767 ? 100 : 120);
+      demowindow.css('height', window.innerWidth <= screenDiv ? 60 : 80);
+      demowindow.css('width', window.innerWidth <= screenDiv ? 100 : 120);
       let selfWidth = demowindow.outerWidth();
       let left = position[0] - selfWidth / 2;
       demowindow.css('left', left);
@@ -190,8 +196,8 @@ export class TideSunriseAndSunsetComponent implements OnInit {
       let sun = $(`#sun`);
       let position = this.myChart.convertToPixel('grid', pos);
       sun.css('display', 'block');
-      sun.css('height', window.innerWidth <= 767 ? 60 : 80);
-      sun.css('width', window.innerWidth <= 767 ? 60 : 80);
+      sun.css('height', window.innerWidth <= screenDiv ? 60 : 80);
+      sun.css('width', window.innerWidth <= screenDiv ? 60 : 80);
       let selfWidth = sun.outerWidth();
       let left = position[0] - selfWidth / 2;
       sun.css('left', left);
@@ -202,9 +208,36 @@ export class TideSunriseAndSunsetComponent implements OnInit {
 
     public cal() {
       this.markSun([110, 105]);
-      this.calculatePos('top', [50, 93]);
-      this.calculatePos('bottom', [200, 30]);
       this.matchBottomTime([50, 0], [110, 105]);
+      this.getFieldData();
+      this.clearMInterval();
+      this.minterval = setInterval(() => {
+        this.getFieldData();
+      }, 5 * 1000);
+    }
+
+    public getFieldData() {
+      this.service.getField().then(result => {
+          let option = this.getOption();
+          option.series[0].data = result['field'];
+          this.myChart.setOption(option);
+          this.calculatePos('top', result['minMax'][0]);
+          this.calculatePos('bottom', result['minMax'][1]);
+      })
+    }
+
+    public clearMInterval() {
+      if (this.minterval) {
+        try {
+          clearInterval(this.minterval);
+        } catch (error) {
+
+        }
+      }
+    }
+
+    public ngOnDestroy() {
+      this.clearMInterval();
     }
 
 }
