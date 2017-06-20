@@ -75,6 +75,11 @@ button .caret {
     .weaBtn{
         font-size: 18px
     }
+    .location-drop-bg a:hover, .location-selected {
+      color: white;
+      text-decoration: none;
+      background-color: #7593d6 !important;
+    }
 }
 @media (max-width: 991px){
     .navbar-custom-menu>.navbar-nav>li {
