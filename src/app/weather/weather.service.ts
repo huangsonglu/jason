@@ -2,20 +2,22 @@ import { Injectable } from '@angular/core';
 export class Hero {
   constructor(public id: number, public name: string) { }
 }
-let HEROES = [
-  new Hero(11, 'Mr. Nice'),
-  new Hero(12, 'Narco'),
-  new Hero(13, 'Bombasto'),
-  new Hero(14, 'Celeritas'),
-  new Hero(15, 'Magneta'),
-  new Hero(16, 'RubberMan')
-];
-let heroesPromise = Promise.resolve(HEROES);
+let fielddata = [[0, 50], [20, 60], [45, 90], [50, 93], [55, 94], [65, 90], [75, 80]
+                , [80, 75], [100, 60], [125, 50], [150, 53], [175, 40], [200, 30]];
+let fielddata1 = [[0, 100], [20, 115], [45, 95], [50, 80], [55, 70], [65, 63], [75, 65]
+                , [80, 70], [100, 75], [125, 60], [150, 53], [175, 40], [200, 30]];
+let fielddata2 = [[0, 58], [17.61, 69.39], [31.70, 78.17], [46.81, 83.61], [61.12, 80.43], [75.90, 71.22], [97.07, 60.87]
+                , [116.17, 57.26], [136.17, 64.87], [154.79, 75.39], [174.73, 65.87], [186.17, 52.17], [200, 30]];
+let fielddata3 = [[0, 50], [20.53,57.43], [35.95,60.51], [48.93,65.43], [61.38,74.12], [69.78,82.30], [79.78,86.41]
+                , [90.63,80.76], [105.05,67.69], [122.60,55.12], [146.01,44.67], [176.06,56.02], [200, 72.30]];
+let fielddata4 = [[0, 90], [20, 57], [35.96,43.85], [55.05,34.67], [68.3,30.54], [81.5,29.10], [97.87,28.72], [115.11,42.95]
+                , [131.65,70.9], [148.40,78.21], [163.82,67.10], [176.06,56.06], [200, 39]];
+// let heroesPromise = Promise.resolve(HEROES);
 @Injectable()
 export class WeatherService {
-  public getHeroes() { return heroesPromise; }
-  public getHero(id: number | string) {
-    return heroesPromise
-      .then(heroes => heroes.find(hero => hero.id === +id));
-  }
+  // public getHeroes() { return heroesPromise; }
+  // public getHero(id: number | string) {
+  //   return heroesPromise
+  //     .then(heroes => heroes.find(hero => hero.id === +id));
+  // }
 }

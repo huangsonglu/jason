@@ -5,12 +5,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Hero, WeatherService } from './weather.service';
 let echarts = require('echarts');
-var myChart;
 declare var $;
-var linedata = [[50, 0], [55, 23], [60.75, 44], [68.24, 63.46], [80.97, 83.78], [95, 98], [110, 105], [116, 105.80], [122.37, 105.50], [139.93, 100.50], [155.63, 91.86]
+let linedata = [[50, 0], [55, 23], [60.75, 44], [68.24, 63.46], [80.97, 83.78], [95, 98], [110, 105], [116, 105.80], [122.37, 105.50], [139.93, 100.50], [155.63, 91.86]
   , [177.10, 75.00], [197.56, 55.00], [200, 52]];
-var fielddata = [[0, 50], [20, 60], [45, 90], [50, 93], [55, 94], [65, 90], [75, 80], [80, 75], [100, 60], [125, 50], [150, 53], [175, 40], [200, 30]];
-var tideBottom = 0;
+let fielddata = [[0, 50], [20, 60], [45, 90], [50, 93], [55, 94], [65, 90], [75, 80], [80, 75], [100, 60], [125, 50], [150, 53], [175, 40], [200, 30]];
+let tideBottom = 0;
 @Component({
   templateUrl: 'tide-sun-rise-set.component.html',
   selector: 'tide-sunrise-sunset',
@@ -19,27 +18,29 @@ var tideBottom = 0;
   ]
 })
 export class TideSunriseAndSunsetComponent implements OnInit {
+  public myChart;
+  public symbolSize = 10;
   constructor(
     private service: WeatherService,
     private route: ActivatedRoute,
     private router: Router
   ) { }
   ngOnInit() {
-    myChart = echarts.init(document.getElementById('tide'));
+    this.myChart = echarts.init(document.getElementById('tide'));
     $('#tide').resize(() => {
-      myChart.resize();
-      setTimeout(function () {
-        cal();
+      this.myChart.resize();
+      setTimeout(() => {
+        this.cal();
       }, 0);
     })
     $('.sidebar-toggle').bind('click', function() {
       if (window.innerWidth <= 767) {
-        setTimeout(function () {
-          cal();
+        setTimeout(() => {
+          this.cal();
         }, 1000);
       }
     })
-    var symbolSize = 10;
+
     let option = {
       title: {
         text: '27th December',
@@ -114,16 +115,16 @@ export class TideSunriseAndSunsetComponent implements OnInit {
     };
 
 
-    setTimeout(function () {
-      myChart.setOption({
-        graphic: echarts.util.map(linedata, function (item, dataIndex) {
+    setTimeout(() => {
+      this.myChart.setOption({
+        graphic: echarts.util.map(linedata, (item, dataIndex) => {
           return {
             type: 'circle',
-            position: myChart.convertToPixel('grid', item),
+            position: this.myChart.convertToPixel('grid', item),
             shape: {
               cx: 0,
               cy: 0,
-              r: symbolSize / 2
+              r: this.symbolSize / 2
             },
             invisible: true,
             z: 100
@@ -132,79 +133,78 @@ export class TideSunriseAndSunsetComponent implements OnInit {
       });
     }, 0);
 
-    window.addEventListener('resize', updatePosition);
-    function updatePosition() {
-      myChart.setOption({
-        graphic: echarts.util.map(linedata, function (item, dataIndex) {
+    window.addEventListener('resize', () => {
+      this.myChart.setOption({
+        graphic: echarts.util.map(linedata, (item, dataIndex) => {
           return {
-            position: myChart.convertToPixel('grid', item)
+            position: this.myChart.convertToPixel('grid', item)
           };
         })
       });
-      myChart.resize();
+      this.myChart.resize();
       setTimeout(function() {
-        cal();
+        this.cal();
       }, 0);
-    }
-    myChart.setOption(option);
+    });
 
-    function calculatePos(str, pos) {
-      var demowindow = $(`#${str}`);
-      var position = myChart.convertToPixel('grid', pos);
+    this.myChart.setOption(option);
+    this.cal();
+  }
+
+  public calculatePos(str, pos) {
+      let demowindow = $(`#${str}`);
+      let position = this.myChart.convertToPixel('grid', pos);
       demowindow.css('display', 'block');
       demowindow.css('height', window.innerWidth <= 767 ? 60 : 80);
       demowindow.css('width', window.innerWidth <= 767 ? 100 : 120);
-      var selfWidth = demowindow.outerWidth();
-      var left = position[0] - selfWidth / 2;
+      let selfWidth = demowindow.outerWidth();
+      let left = position[0] - selfWidth / 2;
       demowindow.css('left', left);
-      var mBottom = ($('#tide').height() || 0) - position[1] + ($('.tide-sun-footer').height() || 0);
+      let mBottom = ($('#tide').height() || 0) - position[1] + ($('.tide-sun-footer').height() || 0);
       demowindow.css('bottom', mBottom - demowindow.height() / 2);
     }
-    function matchBottomTime(posfrom, posto) {
-      var sunfrom = $(`#sunfrom`);
-      var sunto = $(`#sunto`);
-      var sunfromWidth = sunfrom.outerWidth();
-      var sunfromTo = sunto.outerWidth();
-      var positionFrom = myChart.convertToPixel('grid', posfrom);
-      var positionTo = myChart.convertToPixel('grid', posto);
+    public matchBottomTime(posfrom, posto) {
+      let sunfrom = $(`#sunfrom`);
+      let sunto = $(`#sunto`);
+      let sunfromWidth = sunfrom.outerWidth();
+      let sunfromTo = sunto.outerWidth();
+      let positionFrom = this.myChart.convertToPixel('grid', posfrom);
+      let positionTo = this.myChart.convertToPixel('grid', posto);
       sunfrom.css('display', 'block');
       sunfrom.css('margin-left', positionFrom[0] - sunfromWidth / 2);
       sunto.css('display', 'block');
       sunto.css('margin-left', positionTo[0] - positionFrom[0] - sunfromWidth / 2 - sunfromTo / 2);
-      var cursor = $('#cursor');
+      let cursor = $('#cursor');
       cursor.css('display', 'block');
 
-      var marginbottom = $('.tide-sun-footer').height() || 0;
+      let marginbottom = $('.tide-sun-footer').height() || 0;
       cursor.css('left', positionTo[0] - 20);
       cursor.css('bottom', marginbottom);
-      var line = $('#line');
+      let line = $('#line');
       line.css('display', 'block');
       line.css('left', positionTo[0] - 1);
       line.css('bottom', marginbottom);
       line.css('height', ($('#tide').height() || 0) - 100);
     }
-    function markSun(pos) {
-      var sun = $(`#sun`);
-      var position = myChart.convertToPixel('grid', pos);
+    public markSun(pos) {
+      let sun = $(`#sun`);
+      let position = this.myChart.convertToPixel('grid', pos);
       sun.css('display', 'block');
       sun.css('height', window.innerWidth <= 767 ? 60 : 80);
       sun.css('width', window.innerWidth <= 767 ? 60 : 80);
-      var selfWidth = sun.outerWidth();
-      var left = position[0] - selfWidth / 2;
+      let selfWidth = sun.outerWidth();
+      let left = position[0] - selfWidth / 2;
       sun.css('left', left);
-      var mBottom = ($('#tide').height() || 0) - position[1] + ($('.tide-sun-footer').height() || 0);
+      let mBottom = ($('#tide').height() || 0) - position[1] + ($('.tide-sun-footer').height() || 0);
       sun.css('bottom', mBottom - sun.height() / 2);
     }
 
 
-    function cal() {
-      markSun([110, 105]);
-      calculatePos('top', [50, 93]);
-      calculatePos('bottom', [200, 30]);
-      matchBottomTime([50, 0], [110, 105]);
+    public cal() {
+      this.markSun([110, 105]);
+      this.calculatePos('top', [50, 93]);
+      this.calculatePos('bottom', [200, 30]);
+      this.matchBottomTime([50, 0], [110, 105]);
     }
-
-    cal();
-  }
 
 }
