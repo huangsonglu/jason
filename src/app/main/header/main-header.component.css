@@ -45,6 +45,22 @@ button .caret {
     border: none;
 }
 
+.location-drop-bg {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.location-drop-bg a {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.location-drop-bg a:hover, .location-selected {
+  color: white;
+  text-decoration: none;
+  background-color: #7593d6;
+}
+
 @media (max-width: 767px){
     .main-header .logo {
         display:none;

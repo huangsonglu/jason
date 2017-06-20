@@ -2,7 +2,7 @@
   <!-- Logo -->
   <a href="javascript:void(0)" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>D</b>T</span>
+    <span class="logo-mini"><b>M</b>E</span>
     <!-- logo for regular state and mobile devices -->
     <span class="logo-lg"><b>myENV</b></span>
   </a>
@@ -14,25 +14,13 @@
     </a>
     <div class="myEnvMid">
       <p class="noMarginBm">myENV</p>
-      <!--<div style="position:relative;">
-        <a href="javascript:void(0)" (click)="myDropdownToggle()">Current Location <i id="arrow" class="glyphicon glyphicon-chevron-right"></i></a>
-        <ul class="my-dropdown-menu">
-          <li><a href="javascript:void(0)">Beijing</a></li>
-          <li><a href="javascript:void(0)">Tianjin</a></li>
-          <li><a href="javascript:void(0)">Suzhou</a></li>
-          <li><a href="javascript:void(0)">Xizhang</a></li>
-        </ul>
-      </div>-->
       <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle weaBtn" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+        <button class="btn btn-default dropdown-toggle weaBtn" type="button" id="locationDropdown" data-toggle="dropdown" aria-haspopup="true"
           aria-expanded="true">
-          Current Location<span class="caret"></span>
-      </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-          <li><a href="javascript:void(0)">Beijing</a></li>
-          <li><a href="javascript:void(0)">Tianjin</a></li>
-          <li><a href="javascript:void(0)">Suzhou</a></li>
-          <li><a href="javascript:void(0)">Xizhang</a></li>
+          <span id="currentLoc">Current Location</span><span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu location-drop-bg" aria-labelledby="locationDropdown">
+          <li *ngFor="let location of locations"><a href="javascript:void(0)" [class.location-selected]="location.selected" (click)="changeLocation(location)">{{location.name}}</a></li>
         </ul>
       </div>
     </div>

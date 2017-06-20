@@ -31,6 +31,10 @@
     background-color: #2c404c;
 }
 
+.sidebar-collapse .user-panel {
+  display: none;
+}
+
 @media (max-width: 767px) {
   .main-header .logo {
       width: 100%;
