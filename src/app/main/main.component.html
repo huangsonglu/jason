@@ -1,0 +1,22 @@
+
+<div class="wrapper" (window:resize)="onResize($event)">
+
+  <!-- Main Header -->
+  <main-header (onMenuClick)="menuClick()"></main-header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <main-sidebar></main-sidebar>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper" (click)="onContentWrapperClick()">
+    <router-outlet></router-outlet>
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Main Footer -->
+  <!--<main-footer></main-footer>-->
+
+  <!-- Control Sidebar -->
+  <control-sidebar></control-sidebar>
+  <!-- /.control-sidebar -->
+
+</div>

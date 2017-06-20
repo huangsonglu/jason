@@ -1,0 +1,86 @@
+<div>
+  <h1 x-large class="sample-content">Your Content Here</h1>
+
+  <hr>
+
+  <div>
+    For hot module reloading run
+    <pre>npm run start:hmr</pre>
+  </div>
+
+  <hr>
+
+  <div>
+    <h4>Local State</h4>
+
+    <form (ngSubmit)="submitState(localState.value)" autocomplete="off">
+
+      <input
+        [value]="localState.value"
+        (input)="localState.value = $event.target.value"
+        placeholder="Submit Local State to App State"
+        autofocus>
+
+      <button>Submit Value</button>
+    </form>
+    <!--
+        <input type="text" [value]="localState.value" (input)="localState.value = $event.target.value" autofocus>
+        Rather than wiring up two-way data-binding ourselves with [value] and (input)
+        we can use Angular's [(ngModel)] syntax
+        <input type="text" name="textInput" [(ngModel)]="localState.value" autofocus>
+      -->
+
+    <pre>this.localState = {{ localState | json }}</pre>
+
+  </div>
+   <div>
+    <alert type="success">
+      <strong>Well done!</strong> You successfully read this important alert message.
+    </alert>
+    <div class="btn-group" dropdown>
+      <button id="split-button" type="button" class="btn btn-danger">Action</button>
+      <button type="button" class="btn btn-danger dropdown-toggle-split" dropdownToggle>
+        <span class="caret"></span>
+        <span class="sr-only">Split button!</span>
+      </button>
+      <ul class="dropdown-menu" dropdownMenu role="menu" aria-labelledby="split-button">
+        <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+        <li role="menuitem"><a class="dropdown-item" href="#">Another action</a></li>
+        <li role="menuitem"><a class="dropdown-item" href="#">Something else here</a></li>
+        <li class="divider dropdown-divider"></li>
+        <li role="menuitem"><a class="dropdown-item" href="#">Separated link</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <button type="button" class="btn btn-success" tooltip="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." triggers="focus">
+  Dismissible tooltip
+  </button>
+
+  <p>
+    <button type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-sort-by-attributes"></span>
+    </button>
+    <button type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-sort-by-attributes-alt"></span>
+    </button>
+    <button type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-sort-by-order"></span>
+    </button>
+    <button type="button" class="btn btn-default">
+        <span class="glyphicon glyphicon-sort-by-order-alt"></span>
+    </button>
+  </p>
+  <button type="button" class="btn btn-default btn-lg">
+    <span class="glyphicon glyphicon-user"></span>
+    User
+</button>
+  <button type="button" class="btn btn-default btn-sm">
+    <span class="glyphicon glyphicon-user"></span>
+    User
+</button>
+  <button type="button" class="btn btn-default btn-xs">
+    <span class="glyphicon glyphicon-user"></span>
+    User
+</button>
+</div>
