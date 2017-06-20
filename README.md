@@ -19,6 +19,9 @@ this is a showcase of myEnv
 2.Support
   Work on most popular browsers such as Chrome10+ 、Safari5.1+、IE10+ Opera、11.10+ fluently and smoothly.
 
+# Demo Url
+
+  https://myenvdemo-jason.run.aws-jp01-pr.ice.predix.io
 
 
 
