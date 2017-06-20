@@ -16,6 +16,7 @@ this is a showcase of myEnv
 # Features
 1.Responsive
   Adapt most browser and mobile screen size.
+  
 2.Support
   Work on most popular browsers such as Chrome10+ 、Safari5.1+、IE10+ Opera、11.10+ fluently and smoothly.
 
