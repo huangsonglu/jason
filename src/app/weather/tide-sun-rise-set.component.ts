@@ -8,7 +8,6 @@ let echarts = require('echarts');
 declare var $;
 let linedata = [[50, 0], [55, 23], [60.75, 44], [68.24, 63.46], [80.97, 83.78], [95, 98], [110, 105], [116, 105.80], [122.37, 105.50], [139.93, 100.50], [155.63, 91.86]
   , [177.10, 75.00], [197.56, 55.00], [200, 52]];
-let fielddata = [[0, 50], [20, 60], [45, 90], [50, 93], [55, 94], [65, 90], [75, 80], [80, 75], [100, 60], [125, 50], [150, 53], [175, 40], [200, 30]];
 let tideBottom = 0;
 const screenDiv = 767;
 @Component({
@@ -135,7 +134,7 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
               borderWidth: 0
             }
           },
-          data: fielddata
+          data: []
         },
         {
           id: 'a',
@@ -157,7 +156,7 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
     }
   }
 
-  public calculatePos(str, pos) {
+  public calculatePos(str, pos, time) {
       let demowindow = $(`#${str}`);
       let position = this.myChart.convertToPixel('grid', pos);
       demowindow.css('display', 'block');
@@ -168,6 +167,13 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
       demowindow.css('left', left);
       let mBottom = ($('#tide').height() || 0) - position[1] + ($('.tide-sun-footer').height() || 0);
       demowindow.css('bottom', mBottom - demowindow.height() / 2);
+      let unit = ' am';
+      if (Number(time[0]) > 12) {
+        unit = ' pm';
+        time[0] = time[0] - 12;
+      }
+      demowindow.find('.feedtime').text(time[0] + ':' + time[1]);
+      demowindow.find('.unittime').text(unit);
     }
     public matchBottomTime(posfrom, posto) {
       let sunfrom = $(`#sunfrom`);
@@ -221,8 +227,8 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
           let option = this.getOption();
           option.series[0].data = result['field'];
           this.myChart.setOption(option);
-          this.calculatePos('top', result['minMax'][0]);
-          this.calculatePos('bottom', result['minMax'][1]);
+          this.calculatePos('top', result['minMax'][0], result['maxTime']);
+          this.calculatePos('bottom', result['minMax'][1], result['minTime']);
       })
     }
 
