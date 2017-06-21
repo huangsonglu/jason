@@ -41,6 +41,7 @@ Once you have those, you should install these globals with npm install --global:
   Adapt most browser and mobile screen size.
   
 2.Support
+
   Work on most popular browsers such as Chrome10+ 、Safari5.1+、IE10+ Opera、11.10+ fluently and smoothly.
 
 # Demo Url
