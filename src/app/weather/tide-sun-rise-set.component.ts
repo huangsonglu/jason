@@ -3,11 +3,9 @@ import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Hero, WeatherService } from './weather.service';
+import { WeatherService } from './weather.service';
 let echarts = require('echarts');
 declare var $;
-let linedata = [[50, 0], [55, 23], [60.75, 44], [68.24, 63.46], [80.97, 83.78], [95, 98], [110, 105], [116, 105.80], [122.37, 105.50], [139.93, 100.50], [155.63, 91.86]
-  , [177.10, 75.00], [197.56, 55.00], [200, 52]];
 let tideBottom = 0;
 const screenDiv = 767;
 @Component({
@@ -21,11 +19,14 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
   public myChart;
   public symbolSize = 10;
   public minterval;
+  public maxMin;
   constructor(
     private service: WeatherService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    this.maxMin = this.service.getMaxMinTemplate();
+  }
   ngOnInit() {
     this.myChart = echarts.init(document.getElementById('tide'));
     $('#tide').resize(() => {
@@ -46,7 +47,7 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
 
     setTimeout(() => {
       this.myChart.setOption({
-        graphic: echarts.util.map(linedata, (item, dataIndex) => {
+        graphic: echarts.util.map(this.service.getSunBaseLine(), (item, dataIndex) => {
           return {
             type: 'circle',
             position: this.myChart.convertToPixel('grid', item),
@@ -64,7 +65,7 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
 
     window.addEventListener('resize', () => {
       this.myChart.setOption({
-        graphic: echarts.util.map(linedata, (item, dataIndex) => {
+        graphic: echarts.util.map(this.service.getSunBaseLine(), (item, dataIndex) => {
           return {
             type: 'circle',
             position: this.myChart.convertToPixel('grid', item)
@@ -141,7 +142,7 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
           type: 'line',
           smooth: true,
           symbolSize: 0,
-          data: linedata,
+          data: this.service.getSunBaseLine(),
           itemStyle: {
             normal: {
               color: '#ff9f30',
@@ -167,13 +168,6 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
       demowindow.css('left', left);
       let mBottom = ($('#tide').height() || 0) - position[1] + ($('.tide-sun-footer').height() || 0);
       demowindow.css('bottom', mBottom - demowindow.height() / 2);
-      let unit = ' am';
-      if (Number(time[0]) > 12) {
-        unit = ' pm';
-        time[0] = time[0] - 12;
-      }
-      demowindow.find('.feedtime').text(time[0] + ':' + time[1]);
-      demowindow.find('.unittime').text(unit);
     }
     public matchBottomTime(posfrom, posto) {
       let sunfrom = $(`#sunfrom`);
@@ -224,11 +218,12 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
 
     public getFieldData() {
       this.service.getField().then(result => {
+          this.maxMin = result;
           let option = this.getOption();
           option.series[0].data = result['field'];
           this.myChart.setOption(option);
-          this.calculatePos('top', result['minMax'][0], result['maxTime']);
-          this.calculatePos('bottom', result['minMax'][1], result['minTime']);
+          this.calculatePos('top', result['minMaxPos'][0], this.maxMin.max.time);
+          this.calculatePos('bottom', result['minMaxPos'][1], this.maxMin.min.time);
       })
     }
 

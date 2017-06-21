@@ -3,7 +3,7 @@ import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Observable';
 import { Component, OnInit, forwardRef, Injector } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Hero, WeatherService } from './weather.service';
+import { WeatherService } from './weather.service';
 import { AppState } from './../app.service';
 import { MainComponent } from './../main/main.component';
 
