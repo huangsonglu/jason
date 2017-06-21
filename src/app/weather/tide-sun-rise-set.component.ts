@@ -63,23 +63,23 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
       });
     }, 0);
 
-    window.addEventListener('resize', () => {
-      this.myChart.setOption({
-        graphic: echarts.util.map(this.service.getSunBaseLine(), (item, dataIndex) => {
-          return {
-            type: 'circle',
-            position: this.myChart.convertToPixel('grid', item)
-          };
-        })
-      });
-      this.myChart.resize();
-      setTimeout(() => {
-        this.cal();
-      }, 0);
-    });
-
     this.myChart.setOption(option);
     this.cal();
+  }
+
+  public onResize(event) {
+    this.myChart.setOption({
+      graphic: echarts.util.map(this.service.getSunBaseLine(), (item, dataIndex) => {
+        return {
+          type: 'circle',
+          position: this.myChart.convertToPixel('grid', item)
+        };
+      })
+    });
+    this.myChart.resize();
+    setTimeout(() => {
+      this.cal();
+    }, 0);
   }
 
   public getOption() {
@@ -158,87 +158,87 @@ export class TideSunriseAndSunsetComponent implements OnInit, OnDestroy {
   }
 
   public calculatePos(str, pos, time) {
-      let demowindow = $(`#${str}`);
-      let position = this.myChart.convertToPixel('grid', pos);
-      demowindow.css('display', 'block');
-      demowindow.css('height', window.innerWidth <= screenDiv ? 60 : 80);
-      demowindow.css('width', window.innerWidth <= screenDiv ? 100 : 120);
-      let selfWidth = demowindow.outerWidth();
-      let left = position[0] - selfWidth / 2;
-      demowindow.css('left', left);
-      let mBottom = ($('#tide').height() || 0) - position[1] + ($('.tide-sun-footer').height() || 0);
-      demowindow.css('bottom', mBottom - demowindow.height() / 2);
-    }
-    public matchBottomTime(posfrom, posto) {
-      let sunfrom = $(`#sunfrom`);
-      let sunto = $(`#sunto`);
-      let sunfromWidth = sunfrom.outerWidth();
-      let sunfromTo = sunto.outerWidth();
-      let positionFrom = this.myChart.convertToPixel('grid', posfrom);
-      let positionTo = this.myChart.convertToPixel('grid', posto);
-      sunfrom.css('display', 'block');
-      sunfrom.css('margin-left', positionFrom[0] - sunfromWidth / 2);
-      sunto.css('display', 'block');
-      sunto.css('margin-left', positionTo[0] - positionFrom[0] - sunfromWidth / 2 - sunfromTo / 2);
-      let cursor = $('#cursor');
-      cursor.css('display', 'block');
+    let demowindow = $(`#${str}`);
+    let position = this.myChart.convertToPixel('grid', pos);
+    demowindow.css('display', 'block');
+    demowindow.css('height', window.innerWidth <= screenDiv ? 60 : 80);
+    demowindow.css('width', window.innerWidth <= screenDiv ? 100 : 120);
+    let selfWidth = demowindow.outerWidth();
+    let left = position[0] - selfWidth / 2;
+    demowindow.css('left', left);
+    let mBottom = ($('#tide').height() || 0) - position[1] + ($('.tide-sun-footer').height() || 0);
+    demowindow.css('bottom', mBottom - demowindow.height() / 2);
+  }
+  public matchBottomTime(posfrom, posto) {
+    let sunfrom = $(`#sunfrom`);
+    let sunto = $(`#sunto`);
+    let sunfromWidth = sunfrom.outerWidth();
+    let sunfromTo = sunto.outerWidth();
+    let positionFrom = this.myChart.convertToPixel('grid', posfrom);
+    let positionTo = this.myChart.convertToPixel('grid', posto);
+    sunfrom.css('display', 'block');
+    sunfrom.css('margin-left', positionFrom[0] - sunfromWidth / 2);
+    sunto.css('display', 'block');
+    sunto.css('margin-left', positionTo[0] - positionFrom[0] - sunfromWidth / 2 - sunfromTo / 2);
+    let cursor = $('#cursor');
+    cursor.css('display', 'block');
 
-      let marginbottom = $('.tide-sun-footer').height() || 0;
-      cursor.css('left', positionTo[0] - 20);
-      cursor.css('bottom', marginbottom);
-      let line = $('#line');
-      line.css('display', 'block');
-      line.css('left', positionTo[0] - 1);
-      line.css('bottom', marginbottom);
-      line.css('height', ($('#tide').height() || 0) - 100);
-    }
-    public markSun(pos) {
-      let sun = $(`#sun`);
-      let position = this.myChart.convertToPixel('grid', pos);
-      sun.css('display', 'block');
-      sun.css('height', window.innerWidth <= screenDiv ? 60 : 80);
-      sun.css('width', window.innerWidth <= screenDiv ? 60 : 80);
-      let selfWidth = sun.outerWidth();
-      let left = position[0] - selfWidth / 2;
-      sun.css('left', left);
-      let mBottom = ($('#tide').height() || 0) - position[1] + ($('.tide-sun-footer').height() || 0);
-      sun.css('bottom', mBottom - sun.height() / 2);
-    }
+    let marginbottom = $('.tide-sun-footer').height() || 0;
+    cursor.css('left', positionTo[0] - 20);
+    cursor.css('bottom', marginbottom);
+    let line = $('#line');
+    line.css('display', 'block');
+    line.css('left', positionTo[0] - 1);
+    line.css('bottom', marginbottom);
+    line.css('height', ($('#tide').height() || 0) - 100);
+  }
+  public markSun(pos) {
+    let sun = $(`#sun`);
+    let position = this.myChart.convertToPixel('grid', pos);
+    sun.css('display', 'block');
+    sun.css('height', window.innerWidth <= screenDiv ? 60 : 80);
+    sun.css('width', window.innerWidth <= screenDiv ? 60 : 80);
+    let selfWidth = sun.outerWidth();
+    let left = position[0] - selfWidth / 2;
+    sun.css('left', left);
+    let mBottom = ($('#tide').height() || 0) - position[1] + ($('.tide-sun-footer').height() || 0);
+    sun.css('bottom', mBottom - sun.height() / 2);
+  }
 
 
-    public cal() {
-      this.markSun([110, 105]);
-      this.matchBottomTime([50, 0], [110, 105]);
+  public cal() {
+    this.markSun([110, 105]);
+    this.matchBottomTime([50, 0], [110, 105]);
+    this.getFieldData();
+    this.clearMInterval();
+    this.minterval = setInterval(() => {
       this.getFieldData();
-      this.clearMInterval();
-      this.minterval = setInterval(() => {
-        this.getFieldData();
-      }, 5 * 1000);
-    }
+    }, 5 * 1000);
+  }
 
-    public getFieldData() {
-      this.service.getField().then(result => {
-          this.maxMin = result;
-          let option = this.getOption();
-          option.series[0].data = result['field'];
-          this.myChart.setOption(option);
-          this.calculatePos('top', result['minMaxPos'][0], this.maxMin.max.time);
-          this.calculatePos('bottom', result['minMaxPos'][1], this.maxMin.min.time);
-      })
-    }
+  public getFieldData() {
+    this.service.getField().then(result => {
+      this.maxMin = result;
+      let option = this.getOption();
+      option.series[0].data = result['field'];
+      this.myChart.setOption(option);
+      this.calculatePos('top', result['minMaxPos'][0], this.maxMin.max.time);
+      this.calculatePos('bottom', result['minMaxPos'][1], this.maxMin.min.time);
+    })
+  }
 
-    public clearMInterval() {
-      if (this.minterval) {
-        try {
-          clearInterval(this.minterval);
-        } catch (error) {
+  public clearMInterval() {
+    if (this.minterval) {
+      try {
+        clearInterval(this.minterval);
+      } catch (error) {
 
-        }
       }
     }
+  }
 
-    public ngOnDestroy() {
-      this.clearMInterval();
-    }
+  public ngOnDestroy() {
+    this.clearMInterval();
+  }
 
 }
